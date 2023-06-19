@@ -30,14 +30,14 @@ def build_query(query: dict):
     params = {}
     for field, value in query.items():
         if isinstance(value, QueryOperators):
-            params |= generate_query_fields(field, value)
+            params |= generate_orm_query_operators(field, value)
         else:
             params[field] = value
 
     return params
 
 
-def generate_query_fields(field, filter_lookup):
+def generate_orm_query_operators(field, filter_lookup):
     generated_fields = {}
     for lookup_field, value in filter_lookup.__dict__.items():
         if value is strawberry.UNSET:
