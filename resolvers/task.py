@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from graphql_models.task import TaskCreate, TaskRead, TaskQuery
-from repository.task import TaskRepository
+from repositories.task import TaskRepository
 from query_operators import build_query
 from utils import to_dict
 
