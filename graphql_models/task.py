@@ -2,7 +2,7 @@ from datetime import datetime
 
 import strawberry
 
-from query_operators import QueryOperators
+from comparison_operators import ComparisonOperators
 
 @strawberry.type
 class TaskRead:
@@ -19,5 +19,5 @@ class TaskCreate:
 @strawberry.input
 class TaskQuery:
     id: str | None = strawberry.UNSET
-    created_at: QueryOperators[datetime] | None = strawberry.UNSET
+    created_at: ComparisonOperators[datetime] | None = strawberry.UNSET
 

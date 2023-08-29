@@ -2,7 +2,7 @@ from datetime import datetime
 
 from graphql_models.task import TaskCreate, TaskRead, TaskQuery
 from repositories.task import TaskRepository
-from query_operators import build_query
+from comparison_operators import build_query
 from utils import to_dict
 
 def create_task_resolver(task: TaskCreate) -> TaskRead:

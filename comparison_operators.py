@@ -5,7 +5,7 @@ import strawberry
 T = TypeVar("T")
 
 @strawberry.input
-class QueryOperators(Generic[T]):
+class ComparisonOperators(Generic[T]):
     exact: T | None = strawberry.UNSET
     iexact: T | None = strawberry.UNSET
     contains: T | None = strawberry.UNSET
@@ -29,25 +29,25 @@ class QueryOperators(Generic[T]):
 def build_query(query: dict):
     params = {}
     for field, value in query.items():
-        if isinstance(value, QueryOperators):
-            params |= generate_orm_query_operators(field, value)
+        if isinstance(value, ComparisonOperators):
+            params |= generate_orm_comparison_operators(field, value)
         else:
             params[field] = value
 
     return params
 
 
-def generate_orm_query_operators(field, filter_lookup):
+def generate_orm_comparison_operators(field: str, comparison_operators: ComparisonOperators):
     generated_fields = {}
-    for lookup_field, value in filter_lookup.__dict__.items():
+    for comparison_operator, value in comparison_operators.__dict__.items():
         if value is strawberry.UNSET:
             continue
 
-        if lookup_field == "in_list":
-            lookup_field = "in"
-        elif lookup_field == "not_in_list":
-            lookup_field = "nin"
+        if comparison_operator == "in_list":
+            comparison_operator = "in"
+        elif comparison_operator == "not_in_list":
+            comparison_operator = "nin"
 
-        generated_fields[f"{field}__{lookup_field}"] = value
+        generated_fields[f"{field}__{comparison_operator}"] = value
 
     return generated_fields
